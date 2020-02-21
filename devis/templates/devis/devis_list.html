@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+
+{% block content%}
+<div class="container p-0 my-5">
+            <h2 class="text-center">LISTE DEVIS</h2>
+
+    
+            <div class="text-center p-5">
+                <a class="btn btn-warning w-50" href="{% url 'devis-create' %} ">new devis</a>
+            </div>
+            <div class="row">
+                {% for devis in object_list %}
+                <div class="col-3 my-3  ">
+                    
+                    {% if devis.facture %}
+                    <div class="p-5 bg-success">
+                    {% else %}
+                    <div class="p-5 bg-warning">
+                    
+                    {% endif %}
+
+
+                        <h2 class="text-white text-center">{{ devis }}</h2>
+                        <div>
+                            
+                             
+                            
+                            <a class="btn btn-danger" href="{% url 'devis-detail' devis.id %}"> GO</a>
+
+
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid{{devis.id}}">Delete</button>
+                            <div class="modal fade" id="fm-modal-grid{{devis.id}}" tabindex="-1" role="dialog"
+                                aria-labelledBy="fm-modal-grid{{devis.id}}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                        <form action="{% url 'devis-delete' devis.id %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <p>Are you sure you want to delete "{{ object }}"?</p>
+                                                            <input type="submit" value="Confirm">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            
+
+
+
+
+
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    {%endblock%}
+
+

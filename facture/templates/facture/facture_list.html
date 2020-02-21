@@ -1,0 +1,23 @@
+
+{%extends 'base.html'%}
+
+{% block content%}
+<div class="container my-5">
+    <h2 class="text-center">LISTE FACTURES</h2>
+    <div class="row">
+        {% for facture in object_list %}
+        <div class="col-3 text-warning my-3">
+            <div class="bg-success p-5">
+                
+                <a href="{% url 'facture-detail' facture.id %}">{{facture}}</a>
+            </div>
+            
+            
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% endblock %}

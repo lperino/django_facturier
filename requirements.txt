@@ -1,0 +1,3 @@
+Django
+django-bootstrap-modal-forms
+django_weasyprint

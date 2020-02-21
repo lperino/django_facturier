@@ -1,0 +1,67 @@
+
+{%extends 'base.html'%}
+
+{% block content%}
+
+<div class="container-fluid">
+    <div class="text-center">
+        <h5 class="bg-warning">FACTURE ID</h5>
+        <p>{{facture.id}}</p>
+
+    </div>
+    <div class="row">
+        
+        <div class="col-6">
+                            <h2>INFO CLIENT</h2>
+                        <h5 class="bg-warning">Client name</h5>
+                        <p>{{facture.devis.client.first_name}}  {{ facture.devis.client.last_name }}</p>
+            
+            
+                        <h5 class="bg-warning">Client tel</h5>
+                        <p>{{facture.devis.client.tel}}</p>
+                        
+                        <h5 class="bg-warning">Client raison social</h5>
+                        <p>{{facture.devis.client.raison_social}}</p>
+                        
+                        <h5 class="bg-warning">Client siret</h5>
+                        <p>{{facture.devis.client.siret}}</p>
+                        
+                        <h5 class="bg-warning">Client email</h5>
+                        <p>{{facture.devis.client.email}}</p>
+                        
+                    </div>
+        <div class="col-6">
+                            <h2>INFO DEVIS</h2>
+                        <h5 class="bg-warning">Devis Id</h5>
+                        <p>{{facture.devis.id}}</p>
+                        {% for lignefacture in facture.lignefacture_set.all %}
+
+                        <h5 class="bg-warning">Devis </h5>
+                        <p>Description : {{lignefacture.description}}</p>
+                        <p>Quantity : {{lignefacture.quantity}}</p>
+                        <p>Price : {{lignefacture.price}}</p>
+                        <p>Total : {{ lignefacture.get_total_item_price }} </p>
+
+
+
+                        {% endfor %}
+                        <h5 class="bg-warning">ALL TOTAL</h5>
+                        <p>{{facture.devis.get_total_final_price}}</p>
+
+                                    
+        </div>
+
+
+    </div>
+    <div class="text-center">
+
+        {% if pdf == false %}
+                
+                <a href="{% url 'facture-pdf' facture.id %}" target="_blank" class="btn btn-sm btn-success">Generate Pdf</a>
+        {% endif %}
+    </div>
+
+
+</div>
+
+{% endblock %}
