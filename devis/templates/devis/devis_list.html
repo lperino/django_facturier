@@ -27,7 +27,7 @@
                             
                             <a class="btn btn-danger" href="{% url 'devis-detail' devis.id %}"> GO</a>
 
-
+                            {% if perms.devis.delete_devis %}
                             <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid{{devis.id}}">Delete</button>
                             <div class="modal fade" id="fm-modal-grid{{devis.id}}" tabindex="-1" role="dialog"
                                 aria-labelledBy="fm-modal-grid{{devis.id}}" aria-hidden="true">
@@ -55,6 +55,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
 
                     </div>

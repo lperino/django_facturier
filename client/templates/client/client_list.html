@@ -20,7 +20,7 @@
                     <p>{{ client.email}}</p>
                     <a class="btn btn-warning" href="{% url 'client-detail' client.id %}"> go to</a>
                     
-                    
+                    {% if perms.client.delete_client %}
                     <button class="btn btn-warning" data-toggle="modal" data-target="#fm-modal-grid{{client.id}}">Delete</button>
                     <div class="modal fade" id="fm-modal-grid{{client.id}}" tabindex="-1" role="dialog"
                         aria-labelledBy="fm-modal-grid{{client.id}}" aria-hidden="true">
@@ -51,6 +51,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 

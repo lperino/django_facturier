@@ -9,6 +9,7 @@ from django.views.generic.detail import DetailView
 from .forms import *
 from django.forms import ModelForm
 from facture.models import Facture
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 
@@ -17,7 +18,7 @@ class ClientCreateView(CreateView):
     fields = ['first_name','last_name','tel','raison_social','siret','tva','email']
     redirect_field_name = 'next'
     success_url = reverse_lazy('client-list')
-
+    
     def get_context_data(self, **kwargs):
         context = CreateView.get_context_data(self, ** kwargs)
         context["addresses_form"] = ClientAdressesForm()
@@ -71,9 +72,11 @@ class ClientUpdateView(UpdateView):
             return self.render_to_response(context)
     
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(PermissionRequiredMixin,DeleteView):
     model = Client
     success_url = reverse_lazy('client-list')
+    permission_required = 'client.delete_client'
+
     
 
 

@@ -3,8 +3,8 @@
 {% block content%}
 <div class="container">
     <div class="row">
-        <div class="col-12 ">
-            <div class="text-center">
+        <div class="col-6 ">
+            <div class="">
                 <h5>First Name</h5>
                 <p>{{client.first_name}}</p>
                 <h5>Last Name</h5>
@@ -21,6 +21,8 @@
             <p>{{client.tva}}</p>
             <h5>Email Address</h5>
             <p>{{client.email}}</p>
+        </div>
+        <div class="col-6">
             <h5>Address(es)</h5>
             <ol>
 
@@ -40,62 +42,69 @@
                 liste devis
             </h5>
             {% for devis in client.devis_set.all %}
-            <a href="{% url 'devis-detail' devis.id %}"><p>{{devis}}</p></a>
+            <a href="{% url 'devis-detail' devis.id %}">
+                <p>{{devis}}</p>
+            </a>
             {% endfor %}
 
             <h5>
                 liste factures
             </h5>
-            {% for facture in client.facture_set.all %}
-            <p>{{facture}}</p>
-
-
-
+            {% for devis in client.devis_set.all %}
+                {% if devis.facture %}
+                <a href="{% url 'facture-detail' devis.facture.id %}"><p>{{devis.facture}}</p></a>
+                                
+                </a>
+                {% endif %}
             {% endfor %}
-           
+                
 
-
-            <a href="{% url 'client-update' client.id %}">edit client</a>
-
-<!--  -->
-
-<button class="btn" data-toggle="modal" data-target="#fm-modal-grid">Delete</button>
-<div class="modal fade" id="fm-modal-grid" tabindex="-1"
-     role="dialog" aria-labelledBy="fm-modal-grid"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <form action="{% url 'client-delete' client.id %}" method="POST">
-                            {% csrf_token %}
-                            <p>Are you sure you want to delete "{{ object }}"?</p>
-                             <input type="submit" value="Confirm">
-                     </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="modal-footer">
-                <a href="{% url 'client-delete' client.id %}" class="btn">Delete</a>
-                <button class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-            </div> -->
+            
+            
+            
+            <!--  -->
+            
         </div>
     </div>
-</div>
+    <div class="text-center">
+        {% if perms.client.change_client %}
+        <a class="btn btn-primary" href="{% url 'client-update' client.id %}">edit client</a>
+        {% endif %}
 
-
-
-            <!--  -->
-
+        <!--  -->
+        {% if perms.client.delete_client %}
+        <button class="btn btn-primary" data-toggle="modal" data-target="#fm-modal-grid">Delete</button>
+        <div class="modal fade" id="fm-modal-grid" tabindex="-1" role="dialog" aria-labelledBy="fm-modal-grid"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <form action="{% url 'client-delete' client.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <p>Are you sure you want to delete "{{ object }}"?</p>
+                                        <input type="submit" value="Confirm">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+            <a href="{% url 'client-delete' client.id %}" class="btn">Delete</a>
+            <button class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+        </div> -->
+                </div>
+            </div>
         </div>
+        {% endif %}
+
     </div>
 </div>
 

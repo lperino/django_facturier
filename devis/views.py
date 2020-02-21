@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect
 from django_weasyprint import WeasyTemplateResponseMixin
 from django_weasyprint.views import CONTENT_TYPE_PNG
 from facture.models import Facture
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 
 # Create your views here.
@@ -59,10 +61,14 @@ class DevisCreateView(CreateView):
                 'devisligne_form': formToSave
             }
             return self.render_to_response(context)
-class DevisUpdateView(UpdateView):
+class DevisUpdateView(PermissionRequiredMixin,UpdateView):
     model = Devis
     fields = ['client']
     template_name = 'devis/devis_form.html'
+    permission_required = 'devis.change_devis'
+
+
+
     def get_success_url(self):
         return reverse_lazy("devis-detail",args=[self.get_object().id])
 
@@ -84,12 +90,16 @@ class DevisUpdateView(UpdateView):
             }
             return self.render_to_response(context)
 
-class DevisDeleteView(DeleteView):
+class DevisDeleteView(PermissionRequiredMixin,DeleteView):
     model = Devis
     success_url = reverse_lazy('devis-list')
+    permission_required = 'devis.delete_devis'
 
-class DevisTransformView(DetailView):
+
+class DevisTransformView(PermissionRequiredMixin,DetailView):
     model = Devis
+    permission_required = 'facture.add_facture'
+
     
     def get(self, request, *args, **kwargs):
         

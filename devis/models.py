@@ -2,6 +2,7 @@ from django.db import models
 from client.models import Client
 from django.db.models.signals import post_save
 
+
 # Create your models here.
 class Devis(models.Model):
     client = models.ForeignKey(Client,null = True, blank = True, on_delete = models.CASCADE)

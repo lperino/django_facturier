@@ -38,42 +38,47 @@
                     
                     
                     {% if pdf == false %}
-                    <a  class="btn btn-sm btn-success" href="{% url 'devis-update' devis.id %}">edit devis</a>
-                    <a href="{% url 'devis-pdf' devis.id %}" target="_blank" class="btn btn-sm btn-success">Generate Pdf</a>
-                    {% if devis.facture  %}
-                    <a href="{% url 'facture-detail' devis.facture.id %}" target="_blank" class="btn btn-sm btn-success">Detail Facture</a>
-                    {% else %}
-                    <a href="{% url 'devis-transform' devis.id %}" target="_blank" class="btn btn-sm btn-success">Generate Facture</a>
+                        {% if perms.devis.change_devis %}
+                            <a  class="btn btn-sm btn-success" href="{% url 'devis-update' devis.id %}">edit devis</a>
+                        {% endif %}
+                            <a href="{% url 'devis-pdf' devis.id %}" target="_blank" class="btn btn-sm btn-success">Generate Pdf</a>
+                        {% if devis.facture  %}
+                            <a href="{% url 'facture-detail' devis.facture.id %}" target="_blank" class="btn btn-sm btn-success">Detail Facture</a>
+                        {% elif perms.facture.add_facture  %}
+                            <a href="{% url 'devis-transform' devis.id %}" target="_blank" class="btn btn-sm btn-success">Generate Facture</a>
                     
-                    {% endif %}
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#fm-modal-grid">Delete</button>
-                    <div class="modal fade" id="fm-modal-grid" tabindex="-1" role="dialog" aria-labelledBy="fm-modal-grid"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-6">
-                                            <form action="{% url 'devis-delete' devis.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <p>Are you sure you want to delete "{{ object }}"?</p>
-                                                <input type="submit" value="Confirm">
-                                            </form>
+                        {% endif %}
+                        {% if perms.devis.delete_devis %}
+
+                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#fm-modal-grid">Delete</button>
+                        <div class="modal fade" id="fm-modal-grid" tabindex="-1" role="dialog" aria-labelledBy="fm-modal-grid"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6">
+                                                <form action="{% url 'devis-delete' devis.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <p>Are you sure you want to delete "{{ object }}"?</p>
+                                                    <input type="submit" value="Confirm">
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
-                            
                         </div>
+                        {% endif %}
                     </div>
-                </div>
-                {% endif %}
+                    {% endif %}
                 </div>
 
             </div>
